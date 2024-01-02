@@ -80,22 +80,28 @@
         <div class="calendar-header">Saturday</div>
 
         <!-- Days will be dynamically populated here -->
-        <div class="day" onclick="setGoal(0)"></div>
-        <div class="day" onclick="setGoal(1)"></div>
-        <div class="day" onclick="setGoal(2)"></div>
-        <div class="day" onclick="setGoal(3)"></div>
-        <div class="day" onclick="setGoal(4)"></div>
-        <div class="day" onclick="setGoal(5)"></div>
-        <div class="day" onclick="setGoal(6)"></div>
+        <div class="day" onclick="setGoal(this)"></div>
+        <div class="day" onclick="setGoal(this)"></div>
+        <div class="day" onclick="setGoal(this)"></div>
+        <div class="day" onclick="setGoal(this)"></div>
+        <div class="day" onclick="setGoal(this)"></div>
+        <div class="day" onclick="setGoal(this)"></div>
+        <div class="day" onclick="setGoal(this)"></div>
     </div>
 
     <div class="goal-input">
         <input type="text" id="goalText" placeholder="Enter your goal">
-        <button onclick="setGoal()">Set Goal</button>
+        <button onclick="setGoalText()">Set Goal</button>
     </div>
 
     <script>
-        function setGoal(dayIndex) {
+        let currentDay = null;
+
+        function setGoal(day) {
+            currentDay = day;
+        }
+
+        function setGoalText() {
             const input = document.getElementById('goalText');
             const goal = input.value.trim();
             if (goal === '') {
@@ -103,9 +109,12 @@
                 return;
             }
 
-            const days = document.querySelectorAll('.day');
-            days[dayIndex].innerHTML += `<p>${goal}</p>`;
-            input.value = '';
+            if (currentDay !== null) {
+                currentDay.innerHTML += `<p>${goal}</p>`;
+                input.value = '';
+            } else {
+                alert('Please select a day!');
+            }
         }
     </script>
 </body>
