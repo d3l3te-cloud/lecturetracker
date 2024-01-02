@@ -23,12 +23,16 @@
         .calendar-header {
             text-align: center;
             font-weight: bold;
+            border: 1px solid #ccc;
+            padding: 5px;
         }
 
         .day {
             border: 1px solid #ccc;
             padding: 10px;
             text-align: center;
+            min-height: 80px;
+            overflow-y: auto;
         }
 
         .day:hover {
@@ -76,6 +80,13 @@
         <div class="calendar-header">Saturday</div>
 
         <!-- Days will be dynamically populated here -->
+        <div class="day" onclick="setGoal(0)"></div>
+        <div class="day" onclick="setGoal(1)"></div>
+        <div class="day" onclick="setGoal(2)"></div>
+        <div class="day" onclick="setGoal(3)"></div>
+        <div class="day" onclick="setGoal(4)"></div>
+        <div class="day" onclick="setGoal(5)"></div>
+        <div class="day" onclick="setGoal(6)"></div>
     </div>
 
     <div class="goal-input">
@@ -84,7 +95,7 @@
     </div>
 
     <script>
-        function setGoal() {
+        function setGoal(dayIndex) {
             const input = document.getElementById('goalText');
             const goal = input.value.trim();
             if (goal === '') {
@@ -92,10 +103,7 @@
                 return;
             }
 
-            const today = new Date();
-            const dayIndex = today.getDay();
             const days = document.querySelectorAll('.day');
-
             days[dayIndex].innerHTML += `<p>${goal}</p>`;
             input.value = '';
         }
