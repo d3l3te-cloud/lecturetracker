@@ -3,50 +3,120 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Daily Goals</title>
+    <title>Daily Goal Calendar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-header {
+            text-align: center;
+            font-weight: bold;
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+
+        .day {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+            min-height: 80px;
+            overflow-y: auto;
+        }
+
+        .day:hover {
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+
+        .goal-input {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .goal-input input[type="text"] {
+            flex: 1;
+            margin-right: 10px;
+            padding: 5px;
+        }
+
+        .goal-input button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .goal-input button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Daily Goals</h1>
+    fetch('goals.json')
+    <h1>Daily Goal Calendar</h1>
 
-    <div id="goalsContainer">
-        <!-- Goals will be displayed here -->
+    <div class="calendar">
+        <div class="calendar-header">Sunday</div>
+        <div class="calendar-header">Monday</div>
+        <div class="calendar-header">Tuesday</div>
+        <div class="calendar-header">Wednesday</div>
+        <div class="calendar-header">Thursday</div>
+        <div class="calendar-header">Friday</div>
+        <div class="calendar-header">Saturday</div>
+
+        <!-- Days will be dynamically populated here -->
+        <div class="day" onclick="setGoal(this)"></div>
+        <div class="day" onclick="setGoal(this)"></div>
+        <div class="day" onclick="setGoal(this)"></div>
+        <div class="day" onclick="setGoal(this)"></div>
+        <div class="day" onclick="setGoal(this)"></div>
+        <div class="day" onclick="setGoal(this)"></div>
+        <div class="day" onclick="setGoal(this)"></div>
+    </div>
+
+    <div class="goal-input">
+        <input type="text" id="goalText" placeholder="Enter your goal">
+        <button onclick="setGoalText()">Set Goal</button>
     </div>
 
     <script>
-        // Fetch the JSON data using JavaScript
-        fetch('goals.json')
-            .then(response => response.json())
-            .then(data => {
-                // Access the goals object from the JSON data
-                const goals = data.goals;
+        let currentDay = null;
 
-                // Display goals for each day in the web page
-                Object.keys(goals).forEach(day => {
-                    const goalsContainer = document.getElementById('goalsContainer');
-                    const dayGoals = goals[day];
+        function setGoal(day) {
+            currentDay = day;
+        }
 
-                    const dayElement = document.createElement('div');
-                    dayElement.innerHTML = `<h2>${day}</h2>`;
-                    
-                    if (dayGoals.length === 0) {
-                        dayElement.innerHTML += "<p>No goals for today.</p>";
-                    } else {
-                        const goalsList = document.createElement('ul');
-                        dayGoals.forEach(goal => {
-                            const listItem = document.createElement('li');
-                            listItem.textContent = goal;
-                            goalsList.appendChild(listItem);
-                        });
-                        dayElement.appendChild(goalsList);
-                    }
-                    
-                    goalsContainer.appendChild(dayElement);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+        function setGoalText() {
+            const input = document.getElementById('goalText');
+            const goal = input.value.trim();
+            if (goal === '') {
+                alert('Please enter a goal!');
+                return;
+            }
+
+            if (currentDay !== null) {
+                currentDay.innerHTML += `<p>${goal}</p>`;
+                input.value = '';
+            } else {
+                alert('Please select a day!');
+            }
+        }
     </script>
 </body>
 
