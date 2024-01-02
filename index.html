@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Daily Lecture Tracker</title>
+    <title>Daily Goal Calendar</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,76 +14,91 @@
             text-align: center;
         }
 
-        .lecture {
-            margin-bottom: 10px;
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
         }
 
-        label {
-            display: block;
+        .calendar-header {
+            text-align: center;
             font-weight: bold;
         }
 
-        input[type="text"],
-        input[type="time"],
-        input[type="checkbox"] {
-            margin-bottom: 5px;
+        .day {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
         }
 
-        button {
-            padding: 8px 20px;
+        .day:hover {
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+
+        .goal-input {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .goal-input input[type="text"] {
+            flex: 1;
+            margin-right: 10px;
+            padding: 5px;
+        }
+
+        .goal-input button {
+            padding: 5px 10px;
             background-color: #007bff;
             color: #fff;
             border: none;
             cursor: pointer;
         }
 
-        button:hover {
+        .goal-input button:hover {
             background-color: #0056b3;
         }
     </style>
 </head>
 
 <body>
-    <h1>Daily Lecture Tracker</h1>
-    <form id="lectureForm">
-        <div class="lecture">
-            <label for="lectureName">Lecture Name:</label>
-            <input type="text" id="lectureName" name="lectureName" required>
-        </div>
-        <div class="lecture">
-            <label for="lectureTime">Time:</label>
-            <input type="time" id="lectureTime" name="lectureTime" required>
-        </div>
-        <div class="lecture">
-            <label for="lectureCompleted">Completed:</label>
-            <input type="checkbox" id="lectureCompleted" name="lectureCompleted">
-        </div>
-        <button type="submit">Add Lecture</button>
-    </form>
+    <h1>Daily Goal Calendar</h1>
 
-    <div id="lectureList">
-        <!-- Lecture list will be displayed here -->
+    <div class="calendar">
+        <div class="calendar-header">Sunday</div>
+        <div class="calendar-header">Monday</div>
+        <div class="calendar-header">Tuesday</div>
+        <div class="calendar-header">Wednesday</div>
+        <div class="calendar-header">Thursday</div>
+        <div class="calendar-header">Friday</div>
+        <div class="calendar-header">Saturday</div>
+
+        <!-- Days will be dynamically populated here -->
+    </div>
+
+    <div class="goal-input">
+        <input type="text" id="goalText" placeholder="Enter your goal">
+        <button onclick="setGoal()">Set Goal</button>
     </div>
 
     <script>
-        document.getElementById('lectureForm').addEventListener('submit', function (e) {
-            e.preventDefault();
+        function setGoal() {
+            const input = document.getElementById('goalText');
+            const goal = input.value.trim();
+            if (goal === '') {
+                alert('Please enter a goal!');
+                return;
+            }
 
-            const lectureName = document.getElementById('lectureName').value;
-            const lectureTime = document.getElementById('lectureTime').value;
-            const lectureCompleted = document.getElementById('lectureCompleted').checked;
+            const today = new Date();
+            const dayIndex = today.getDay();
+            const days = document.querySelectorAll('.day');
 
-            const lectureItem = document.createElement('div');
-            lectureItem.classList.add('lecture');
-            lectureItem.innerHTML = `
-                <h3>${lectureName}</h3>
-                <p><strong>Time:</strong> ${lectureTime}</p>
-                <p><strong>Completed:</strong> ${lectureCompleted ? 'Yes' : 'No'}</p>
-            `;
-
-            document.getElementById('lectureList').appendChild(lectureItem);
-            document.getElementById('lectureForm').reset();
-        });
+            days[dayIndex].innerHTML += `<p>${goal}</p>`;
+            input.value = '';
+        }
     </script>
 </body>
 
