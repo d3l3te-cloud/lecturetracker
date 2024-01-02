@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Daily Lecture Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .lecture {
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="time"],
+        input[type="checkbox"] {
+            margin-bottom: 5px;
+        }
+
+        button {
+            padding: 8px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Daily Lecture Tracker</h1>
+    <form id="lectureForm">
+        <div class="lecture">
+            <label for="lectureName">Lecture Name:</label>
+            <input type="text" id="lectureName" name="lectureName" required>
+        </div>
+        <div class="lecture">
+            <label for="lectureTime">Time:</label>
+            <input type="time" id="lectureTime" name="lectureTime" required>
+        </div>
+        <div class="lecture">
+            <label for="lectureCompleted">Completed:</label>
+            <input type="checkbox" id="lectureCompleted" name="lectureCompleted">
+        </div>
+        <button type="submit">Add Lecture</button>
+    </form>
+
+    <div id="lectureList">
+        <!-- Lecture list will be displayed here -->
+    </div>
+
+    <script>
+        document.getElementById('lectureForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const lectureName = document.getElementById('lectureName').value;
+            const lectureTime = document.getElementById('lectureTime').value;
+            const lectureCompleted = document.getElementById('lectureCompleted').checked;
+
+            const lectureItem = document.createElement('div');
+            lectureItem.classList.add('lecture');
+            lectureItem.innerHTML = `
+                <h3>${lectureName}</h3>
+                <p><strong>Time:</strong> ${lectureTime}</p>
+                <p><strong>Completed:</strong> ${lectureCompleted ? 'Yes' : 'No'}</p>
+            `;
+
+            document.getElementById('lectureList').appendChild(lectureItem);
+            document.getElementById('lectureForm').reset();
+        });
+    </script>
+</body>
+
+</html>
